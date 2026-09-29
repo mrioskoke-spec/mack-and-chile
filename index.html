@@ -534,6 +534,7 @@ function storyText(p){
     :`El mismo día del video, @drinkchile publica una story que destaca ${wine}, etiquetando a la viña.`;
 }
 const dayName=dt=>T("days")[(dt.getDay()+6)%7];
+const REEL_V="2026-09-29-2"; /* subir este número cuando se reemplace un reel */
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const fmt=dt=>LANG==="en"?`${MON[dt.getMonth()]} ${dt.getDate()}`:`${pad(dt.getDate())}.${pad(dt.getMonth()+1)}`;
 const place=p=>(p.t==="recap"?T("multi"):(p.vl||p.v))+(p.p?` · ${T("with")} <span translate="no">${p.p}</span>`:"");
@@ -591,7 +592,7 @@ function openEp(i){
   cur=(i+posts.length)%posts.length;const p=posts[cur],dt=p.d?D(p.d):null;
   $("m-top").textContent=p.t==="teaser"?T("teaserTop"):`${T("ep")} ${pad(p.n)} ${T("of")} ${posts.length-1} · ${T(p.t)}`;
   $("m-cover").innerHTML=coverHTML(p);
-  const src=p.reel||`reels/ep${pad(p.n)}.mp4`;
+  const src=p.reel||`reels/ep${pad(p.n)}.mp4?v=${REEL_V}`;
   $("m-reel").innerHTML=`<video controls playsinline preload="metadata" src="${src}"></video>`;
   $("m-reel").querySelector("video").addEventListener("error",()=>{$("m-reel").innerHTML=emptyReel(p)});
   $("m-date").innerHTML=dt?`<b>${fmt(dt)}${LANG==="en"?", ":"."}${LANG==="en"?dt.getFullYear():String(dt.getFullYear()).slice(2)}</b><span class="spaced" style="font-size:10px">${dayName(dt)}</span>`:`<b>00</b><span class="spaced" style="font-size:10px">${L(p.when)}</span>`;
