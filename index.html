@@ -211,6 +211,32 @@ footer.web .small{font-family:Raleway,sans-serif;color:rgba(255,255,255,.55);fon
 }
 .m-ep-title{font-size:11px}
 
+/* CALENDARIO MENSUAL CON PESTAÑAS */
+.mtabs{display:flex;gap:0;border:1px solid var(--line);margin-bottom:22px;overflow-x:auto}
+.mtabs button{flex:1;min-width:64px;font:inherit;background:transparent;color:var(--soft);border:0;border-right:1px solid var(--line);padding:13px 6px;font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.mtabs button:last-child{border-right:0}
+.mtabs button small{display:block;font-size:9px;letter-spacing:.14em;opacity:.7;margin-top:3px}
+.mtabs button.on{background:var(--red);color:#fff}
+.mtabs button:focus-visible{outline:2px solid var(--cream);outline-offset:-3px}
+.mcal-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.mcal-head .serif{font-size:clamp(26px,3.4vw,38px)}
+.mcal-head small{font-size:10px;letter-spacing:.3em;color:var(--faint);text-transform:uppercase}
+.mcal-note{font-size:13px;color:var(--soft);margin-bottom:14px;border-left:2px solid var(--red);padding-left:12px}
+.mcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.mcal .dow{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);text-align:center;padding-bottom:4px}
+.mcal .day{position:relative;aspect-ratio:3/4;border:1px solid var(--line);padding:6px;font-size:12px;color:var(--soft);overflow:hidden;min-width:0}
+.mcal .day.empty{border-color:transparent}
+.mcal .day.pub{cursor:pointer;border-color:var(--red);color:#fff;padding:0}
+.mcal .day.pub img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mcal .day.pub .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,0,32,.55),transparent 45%,rgba(10,0,32,.85))}
+.mcal .day.pub.noimg{background:linear-gradient(180deg,#2b0c7a,#1F005C)}
+.mcal .day.pub.recap.noimg{background:linear-gradient(180deg,#1f9a90,#12605a)}
+.mcal .day.pub .dn{position:absolute;top:6px;left:7px;font-weight:600}
+.mcal .day.pub .lb{position:absolute;left:6px;right:6px;bottom:6px;font-family:Anton,sans-serif;font-size:clamp(11px,1.6vw,16px);letter-spacing:.04em;line-height:1.05}
+.mcal .day.pub .lb span{display:block;font-family:"Source Serif 4",serif;font-weight:700;font-size:clamp(8px,1.1vw,12px);text-transform:uppercase;letter-spacing:.02em;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mcal .day.pub:hover,.mcal .day.pub:focus-visible{outline:2px solid var(--cream);outline-offset:1px}
+@media(max-width:560px){.mcal{gap:3px}.mcal .day{padding:3px;font-size:10px}.mcal .day.pub .lb span{display:none}.mcal .day.pub .dn{top:3px;left:4px}}
+
 /* IDIOMA */
 .top-r{display:flex;align-items:center;gap:16px}
 .lang{display:flex;border:1px solid var(--line)}
@@ -336,6 +362,19 @@ body.lock{overflow:hidden}
     <div class="sched reveal" id="months"></div>
   </div>
 </section>
+
+<section id="mensual">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="big-n">04</div>
+      <div class="spaced" data-i18n="s4">Calendario mensual</div>
+      <h2 class="serif" data-i18n="s4h">Mes a mes, <span>en calendario</span></h2>
+      <p data-i18n="s4p">Elige un mes. Los días marcados son publicaciones: tócalos para ver su portada, reel y copy.</p>
+    </div>
+    <div class="mtabs" id="mtabs" role="tablist"></div>
+    <div id="mcal-wrap"></div>
+  </div>
+</section>
 <footer class="web">
   <div class="woc-word" translate="no">Wines<i>of</i>Chile</div>
   <div class="tagline" data-i18n="tag">El vino está en nuestra naturaleza</div>
@@ -434,6 +473,11 @@ const NOTE={
 /* IDIOMA: textos de la página en español e inglés (los copys no se traducen) */
 const I18N={
  es:{prop:"Propuesta de calendario",
+  s4:"Calendario mensual",s4h:"Mes a mes, <span>en calendario</span>",s4p:"Elige un mes. Los días marcados son publicaciones: tócalos para ver su portada, reel y copy.",
+  teaserNote:"El teaser se publica antes del lunes 5 de octubre.",dows:["Lu","Ma","Mi","Ju","Vi","Sá","Do"],
+  months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+  posts:"publicaciones",post:"publicación",
+
   heroP:'Un teaser, nueve viñas, dos recaps y un lunes cada quince días. Así ordenamos la serie de André Mack en <b translate="no">@drinkchile</b>, publicada en colaboración con <b translate="no">@andrehmack</b>.',
   f1:"Publicaciones · teaser + 11",f2:"Entre cada post · lunes",f3n:"05<em>.10</em>",f3:"Primer episodio",f4:"Valles recorridos",
   s1:"La serie",s1h:"Qué, dónde <span>y cuándo</span>",
@@ -449,6 +493,11 @@ const I18N={
   copyPending:"Copy pendiente.",reelPending:"Reel pendiente de edición.",copyBtn:"Copiar copy",copied:"Copiado",
   copyFail:"No se pudo copiar",seeEp:"Ver episodio",prevEp:"Episodio anterior",nextEp:"Episodio siguiente"},
  en:{prop:"Content calendar proposal",
+  s4:"Monthly calendar",s4h:"Month by month, <span>on the calendar</span>",s4p:"Pick a month. Marked days are posts: tap one to see its cover, reel and copy.",
+  teaserNote:"The teaser goes out before Monday, October 5.",dows:["Mo","Tu","We","Th","Fr","Sa","Su"],
+  months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  posts:"posts",post:"post",
+
   heroP:'One teaser, nine wineries, two recaps and a new post every other Monday. This is how André Mack’s series is laid out on <b translate="no">@drinkchile</b>, published as a collab with <b translate="no">@andrehmack</b>.',
   f1:"Posts · teaser + 11",f2:"Between posts · Mondays",f3n:"OCT<em> 5</em>",f3:"First episode",f4:"Valleys visited",
   s1:"The series",s1h:"What, where <span>and when</span>",
@@ -597,13 +646,41 @@ $("m-copybtn").onclick=async()=>{
   catch(err){const r=document.createRange();r.selectNodeContents($("m-text"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("m-copybtn").textContent=T("copyFail");}
 };
 
+/* calendario mensual con pestañas */
+const CAL_MONTHS=[[2026,9],[2026,10],[2026,11],[2027,0],[2027,1]];
+let CAL_I=0;
+function renderCal(){
+  const tabs=document.getElementById("mtabs");
+  tabs.innerHTML=CAL_MONTHS.map(([y,m],i)=>`<button role="tab" aria-selected="${i===CAL_I}" class="${i===CAL_I?"on":""}" data-i="${i}">${T("months")[m].slice(0,3)}<small>${y}</small></button>`).join("");
+  const [y,m]=CAL_MONTHS[CAL_I];
+  const first=new Date(y,m,1,12),days=new Date(y,m+1,0).getDate(),lead=(first.getDay()+6)%7;
+  const byDay={};posts.forEach(p=>{if(p.d){const dt=D(p.d);if(dt.getFullYear()===y&&dt.getMonth()===m)byDay[dt.getDate()]=p;}});
+  const n=Object.keys(byDay).length;
+  let cells=T("dows").map(d=>`<div class="dow">${d}</div>`).join("")+'<div class="day empty"></div>'.repeat(lead);
+  for(let d=1;d<=days;d++){
+    const p=byDay[d];
+    if(!p){cells+=`<div class="day">${d}</div>`;continue;}
+    cells+=`<div class="day pub ${p.t}${p.img?"":" noimg"}" data-n="${p.n}" tabindex="0" role="button" aria-label="${d} ${T("months")[m]}: ${p.w}">`
+      +(p.img?`<img src="${p.img}" alt="">`:"")+`<div class="shade"></div><span class="dn">${d}</span>`
+      +`<div class="lb">EP ${pad(p.n)}<span translate="no">${p.w}</span></div></div>`;
+  }
+  document.getElementById("mcal-wrap").innerHTML=
+    `<div class="mcal-head"><div class="serif">${T("months")[m]}</div><small>${y} · ${n} ${n===1?T("post"):T("posts")}</small></div>`
+    +(CAL_I===0?`<div class="mcal-note">${T("teaserNote")}</div>`:"")
+    +`<div class="mcal">${cells}</div>`;
+}
+document.getElementById("mtabs").addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(b){CAL_I=+b.dataset.i;renderCal();}});
+document.getElementById("mcal-wrap").addEventListener("click",e=>{const t=e.target.closest(".day.pub[data-n]");if(t)openEp(posts.findIndex(p=>p.n==t.dataset.n));});
+document.getElementById("mcal-wrap").addEventListener("keydown",e=>{const t=e.target.closest(".day.pub[data-n]");if(t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openEp(posts.findIndex(p=>p.n==t.dataset.n));}});
+(()=>{const now=new Date();const i=CAL_MONTHS.findIndex(([y,m])=>y>now.getFullYear()||(y===now.getFullYear()&&m>=now.getMonth()));CAL_I=i<0?CAL_MONTHS.length-1:i;})();
+
 function setLang(l){
   LANG=l;try{localStorage.setItem("mc-lang",l)}catch(e){}
   document.documentElement.lang=l;
   document.querySelectorAll("[data-i18n]").forEach(el=>{el.innerHTML=T(el.dataset.i18n)});
   document.querySelectorAll(".lang button").forEach(b=>{b.classList.toggle("on",b.dataset.lang===l);b.setAttribute("aria-pressed",b.dataset.lang===l)});
   $("m-prev").title=$("m-prev").ariaLabel=T("prevEp");$("m-next").title=$("m-next").ariaLabel=T("nextEp");
-  renderFilters();renderGrid();renderMonths();
+  renderFilters();renderGrid();renderMonths();renderCal();
   if(modal.classList.contains("open"))openEp(cur);
 }
 document.querySelector(".lang").addEventListener("click",e=>{const b=e.target.closest("button[data-lang]");if(b&&b.dataset.lang!==LANG)setLang(b.dataset.lang)});
