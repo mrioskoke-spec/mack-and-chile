@@ -387,17 +387,17 @@ const posts=[
 /* COPY de cada episodio: pegar el texto entre las comillas invertidas ``.
    REEL: guardar cada video en la carpeta reels/ como ep01.mp4, ep02.mp4, etc. */
 const COPY={
- 0:`Mack & Chile series is about to drop. 🇨🇱🍷
+ 0:`Mack & Chile series is about to drop.
 Join sommelier and winemaker André Mack as he discovers Chile through its wine, food, and people.
 Nine wineries. Four valleys. Great encounters. And some of Chile’s most exciting wines.
-🎥 First episode drops October 5. Don’t miss it!
+First episode drops October 5. Don’t miss it!
 #MackAndChile #DrinkChile #AndréMack #ChileanWine`,
- 1:`🎥 Mack & Chile, Episode 1: Casas del Bosque 🇨🇱🍷
+ 1:`Mack & Chile, Episode 1: Casas del Bosque
 André Mack kicks off the series in the Casablanca Valley, tasting Casas del Bosque’s Chardonnay Collection with Chief Winemaker Alberto Guolo.
-There’s great food, good company, and the influence of the cool Pacific Ocean in every glass. 🌊
+There’s great food, good company, and the influence of the cool Pacific Ocean in every glass.
 Watch the first episode. More stops are coming soon!
 #MackAndChile #DrinkChile #CasasDelBosque #CasablancaValley #ChileanWine`,
- 2:`Mack & Chile starts at Don Melchor. 🇨🇱🍷
+ 2:`Mack & Chile starts at Don Melchor.
 In the first episode, top sommelier and winemaker André Mack meets Enrique Tirado and tastes the 2021 vintage.
 Watch episode one. More of Mack’s journey through Chile is coming soon!
 #MackAndChile #DrinkChile #AndréMack #DonMelchor`,
@@ -540,7 +540,7 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowLeft")openEp(cur-1);
 });
 $("m-copybtn").onclick=async()=>{
-  try{await navigator.clipboard.writeText((COPY[posts[cur].n]||"").trim());$("m-copybtn").textContent="Copiado ✓";}
+  try{await navigator.clipboard.writeText((COPY[posts[cur].n]||"").trim());$("m-copybtn").textContent="Copiado";}
   catch(err){$("m-copybtn").textContent="No se pudo copiar";}
 };
 
