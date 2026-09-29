@@ -237,6 +237,16 @@ footer.web .small{font-family:Raleway,sans-serif;color:rgba(255,255,255,.55);fon
 .mcal .day.pub:hover,.mcal .day.pub:focus-visible{outline:2px solid var(--cream);outline-offset:1px}
 @media(max-width:560px){.mcal{gap:3px}.mcal .day{padding:3px;font-size:10px}.mcal .day.pub .lb span{display:none}.mcal .day.pub .dn{top:3px;left:4px}}
 
+/* STORY DE APOYO */
+.story-tag{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:9.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);border:1px solid var(--line);padding:4px 8px}
+.story-tag i{width:9px;height:9px;border-radius:50%;background:conic-gradient(var(--red),var(--orange),var(--red));display:inline-block}
+.m-story{margin-top:16px;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;border:1px solid var(--line);padding:14px}
+.m-story .ring{width:44px;height:44px;border-radius:50%;padding:2px;background:conic-gradient(var(--red),var(--orange),var(--red))}
+.m-story .ring span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--blue);border:2px solid var(--blue);font-family:Anton,sans-serif;font-size:13px;color:var(--cream)}
+.m-story b{display:block;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin-bottom:4px;font-weight:600}
+.m-story p{font-size:13.5px;color:var(--cream);line-height:1.5}
+.srow .st{display:block;margin-top:4px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+
 /* IDIOMA */
 .top-r{display:flex;align-items:center;gap:16px}
 .lang{display:flex;border:1px solid var(--line)}
@@ -407,6 +417,7 @@ body.lock{overflow:hidden}
           <div class="sub" id="m-sub"></div>
           <div class="acc" translate="no"><i>WoC</i>@drinkchile <span>&times; @andrehmack</span></div>
           <div class="m-text" id="m-text" translate="no"></div>
+          <div class="m-story" id="m-story" hidden><div class="ring"><span>WoC</span></div><div><b id="m-story-t"></b><p id="m-story-p"></p></div></div>
           <div class="m-note" id="m-note" hidden></div>
           <div class="m-actions"><button id="m-copybtn">Copiar copy</button></div>
         </div>
@@ -473,6 +484,8 @@ const NOTE={
 /* IDIOMA: textos de la página en español e inglés (los copys no se traducen) */
 const I18N={
  es:{prop:"Propuesta de calendario",
+  storyT:"Story de apoyo",storyTag:"+ Story del vino",
+  q1p:"Abre un <b>reel teaser</b> que adelanta lo que se viene. Siguen <b>9 videos de viña</b>, uno por bodega, cada uno acompañado de una <b>story que destaca un vino de esa viña</b>. Cierran <b>2 recaps</b> con el viaje completo.",
   s4:"Calendario mensual",s4h:"Mes a mes, <span>en calendario</span>",s4p:"Elige un mes. Los días marcados son publicaciones: tócalos para ver su portada, reel y copy.",
   teaserNote:"El teaser se publica antes del lunes 5 de octubre.",dows:["Lu","Ma","Mi","Ju","Vi","Sá","Do"],
   months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
@@ -481,7 +494,7 @@ const I18N={
   heroP:'Un teaser, nueve viñas, dos recaps y un lunes cada quince días. Así ordenamos la serie de André Mack en <b translate="no">@drinkchile</b>, publicada en colaboración con <b translate="no">@andrehmack</b>.',
   f1:"Publicaciones · teaser + 11",f2:"Entre cada post · lunes",f3n:"05<em>.10</em>",f3:"Primer episodio",f4:"Valles recorridos",
   s1:"La serie",s1h:"Qué, dónde <span>y cuándo</span>",
-  q1:"Qué",q1p:"Abre un <b>reel teaser</b> que adelanta lo que se viene. Siguen <b>9 videos de viña</b>, uno por bodega, y cierran <b>2 recaps</b> con el viaje completo.",
+  q1:"Qué",
   q2:"Dónde",q2p:'En <b translate="no">@drinkchile</b>, como publicación en colaboración con <b translate="no">@andrehmack</b>: un solo post para las dos audiencias.',
   q3:"Cuándo",q3p:"<b>Lunes por medio</b>, del 5 de octubre de 2026 al 22 de febrero de 2027, en el orden en que André recorrió las viñas.",
   s2:"Calendario",s2h:"Teaser + <span>11 episodios</span>",s2p:"Así se verá la serie en el feed. Los episodios con foto ya tienen portada final; el resto muestra cómo quedarán.",
@@ -493,6 +506,8 @@ const I18N={
   copyPending:"Copy pendiente.",reelPending:"Reel pendiente de edición.",copyBtn:"Copiar copy",copied:"Copiado",
   copyFail:"No se pudo copiar",seeEp:"Ver episodio",prevEp:"Episodio anterior",nextEp:"Episodio siguiente"},
  en:{prop:"Content calendar proposal",
+  storyT:"Support story",storyTag:"+ Wine story",
+  q1p:"It opens with a <b>teaser reel</b> that previews what is coming. Then <b>9 winery videos</b>, one per winery, each paired with a <b>story that features one of that winery’s wines</b>. <b>2 recaps</b> close the full journey.",
   s4:"Monthly calendar",s4h:"Month by month, <span>on the calendar</span>",s4p:"Pick a month. Marked days are posts: tap one to see its cover, reel and copy.",
   teaserNote:"The teaser goes out before Monday, October 5.",dows:["Mo","Tu","We","Th","Fr","Sa","Su"],
   months:["January","February","March","April","May","June","July","August","September","October","November","December"],
@@ -501,7 +516,7 @@ const I18N={
   heroP:'One teaser, nine wineries, two recaps and a new post every other Monday. This is how André Mack’s series is laid out on <b translate="no">@drinkchile</b>, published as a collab with <b translate="no">@andrehmack</b>.',
   f1:"Posts · teaser + 11",f2:"Between posts · Mondays",f3n:"OCT<em> 5</em>",f3:"First episode",f4:"Valleys visited",
   s1:"The series",s1h:"What, where <span>and when</span>",
-  q1:"What",q1p:"It opens with a <b>teaser reel</b> that previews what is coming. Then <b>9 winery videos</b>, one per winery, and <b>2 recaps</b> that close the full journey.",
+  q1:"What",
   q2:"Where",q2p:'On <b translate="no">@drinkchile</b>, as a collab post with <b translate="no">@andrehmack</b>: one post that reaches both audiences.',
   q3:"When",q3p:"<b>Every other Monday</b>, from October 5, 2026 to February 22, 2027, in the order André visited the wineries.",
   s2:"Calendar",s2h:"Teaser + <span>11 episodes</span>",s2p:"This is how the series will look in the feed. Episodes with a photo already have their final cover; the rest show how they will look.",
@@ -517,6 +532,17 @@ let LANG="es";
 try{const s=localStorage.getItem("mc-lang");if(s==="en"||s==="es")LANG=s;}catch(e){}
 const T=k=>I18N[LANG][k];
 const L=x=>x&&typeof x==="object"?x[LANG]:x;
+/* story de apoyo: se publica el mismo día que cada video de viña */
+const WINE={
+ 1:{es:"el Chardonnay Collection de Casas del Bosque",en:"Casas del Bosque’s Chardonnay Collection"},
+ 2:{es:"Don Melchor 2021, Vino del Año 2024 de Wine Spectator",en:"Don Melchor 2021, Wine Spectator’s 2024 Wine of the Year"}
+};
+function storyText(p){
+  const wine=WINE[p.n]?L(WINE[p.n]):(LANG==="en"?`one of ${p.w}’s wines`:`un vino de ${p.w}`);
+  return LANG==="en"
+    ?`The same day the video goes live, @drinkchile posts a story featuring ${wine}, tagging the winery.`
+    :`El mismo día del video, @drinkchile publica una story que destaca ${wine}, etiquetando a la viña.`;
+}
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const fmt=dt=>LANG==="en"?`${MON[dt.getMonth()]} ${dt.getDate()}`:`${pad(dt.getDate())}.${pad(dt.getMonth()+1)}`;
 const place=p=>(p.t==="recap"?T("multi"):(p.vl||p.v))+(p.p?` · ${T("with")} <span translate="no">${p.p}</span>`:"");
@@ -540,7 +566,7 @@ function renderGrid(){document.getElementById("grid").innerHTML=posts.map(p=>{
       <h3 class="serif" translate="no">${p.w}</h3>
       <p>${L(p.sub)||place(p)}</p>
       ${p.warn?`<span class="warn">${L(p.warn)}</span>`:""}
-      <span class="see">${T("see")}</span>
+      ${p.t==="video"?`<span class="story-tag"><i></i>${T("storyTag")}</span><br>`:""}<span class="see">${T("see")}</span>
     </div>
   </article>`;
 }).join("");applyFilter();}
@@ -564,7 +590,7 @@ function renderMonths(){document.getElementById("months").innerHTML=posts.map(p=
   const ep=p.t==="teaser"?"Teaser":p.t==="recap"?`Recap · Ep. ${pad(p.n)}`:`Ep. ${pad(p.n)}`;
   return `<div class="srow ${p.t}" data-n="${p.n}" tabindex="0" role="button" aria-label="${p.w}">
     <div class="dt">${date}</div>
-    <div><div class="nm serif" translate="no">${p.w}</div><div class="vl">${place(p)}</div></div>
+    <div><div class="nm serif" translate="no">${p.w}</div><div class="vl">${place(p)}</div>${p.t==="video"?`<span class="st">${T("storyTag")}</span>`:""}</div>
     <span class="ep">${ep}</span>
     <span class="go">${T("go")}</span>
   </div>`;
@@ -602,6 +628,7 @@ function openEp(i){
   $("m-text").textContent=txt||T("copyPending");
   $("m-text").classList.toggle("none",!txt);
   $("m-copybtn").disabled=!txt;$("m-copybtn").textContent=T("copyBtn");
+  $("m-story").hidden=p.t!=="video";if(p.t==="video"){$("m-story-t").textContent=T("storyT");$("m-story-p").textContent=storyText(p);}
   $("m-note").hidden=!NOTE[p.n];$("m-note").textContent=L(NOTE[p.n])||"";
   if(!modal.classList.contains("open")){modal.classList.add("open");document.body.classList.add("lock");try{history.pushState({ep:p.n},"")}catch(e){}}
   setTab("reel");
